@@ -1,6 +1,6 @@
 package br.com.alura.adopet.api.service;
 
-import br.com.alura.adopet.api.dto.DadosDetalhesPet;
+import br.com.alura.adopet.api.dto.DadosDetalhesPetDTO;
 import br.com.alura.adopet.api.exception.ValidacaoException;
 import br.com.alura.adopet.api.model.Pet;
 import br.com.alura.adopet.api.repository.PetRepository;
@@ -13,11 +13,11 @@ public class PetService {
     @Autowired
     private PetRepository petRepository;
 
-    public List<DadosDetalhesPet> listarTodosDisponiveis() {
+    public List<DadosDetalhesPetDTO> listarTodosDisponiveis() {
         List<Pet> pets = petRepository.findAllByAdotado(false);
-        List<DadosDetalhesPet> dadosDetalhesPets = new ArrayList<>();
+        List<DadosDetalhesPetDTO> dadosDetalhesPets = new ArrayList<>();
 
-        pets.forEach(pet -> dadosDetalhesPets.add(new DadosDetalhesPet(pet)));
+        pets.forEach(pet -> dadosDetalhesPets.add(new DadosDetalhesPetDTO(pet)));
 
         if (dadosDetalhesPets.isEmpty()) {
             throw new ValidacaoException("Nenhum Pet foi encontrado!");

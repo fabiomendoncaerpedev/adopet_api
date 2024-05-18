@@ -1,6 +1,6 @@
 package br.com.alura.adopet.api.controller;
 
-import br.com.alura.adopet.api.dto.DadosDetalhesPet;
+import br.com.alura.adopet.api.dto.DadosDetalhesPetDTO;
 import br.com.alura.adopet.api.exception.ValidacaoException;
 import br.com.alura.adopet.api.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,9 @@ public class PetController {
     private PetService petService;
 
     @GetMapping
-    public ResponseEntity<List<DadosDetalhesPet>> listarTodosDisponiveis() {
+    public ResponseEntity<List<DadosDetalhesPetDTO>> listarTodosDisponiveis() {
         try {
-            List<DadosDetalhesPet> dadosDetalhesPets = petService.listarTodosDisponiveis();
+            List<DadosDetalhesPetDTO> dadosDetalhesPets = petService.listarTodosDisponiveis();
 
             return ResponseEntity.ok(dadosDetalhesPets);
         } catch (ValidacaoException e) {

@@ -1,6 +1,5 @@
 package br.com.alura.adopet.api.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -12,7 +11,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "abrigos")
 public class Abrigo {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,6 +35,22 @@ public class Abrigo {
         if (o == null || getClass() != o.getClass()) return false;
         Abrigo abrigo = (Abrigo) o;
         return Objects.equals(id, abrigo.id);
+    }
+
+    public Abrigo() {}
+
+    public Abrigo(String nome, String telefone, String email) {
+        this.nome = nome;
+        this.telefone = telefone;
+        this.email = email;
+    }
+
+    public void cadastrarPetNoAbrigo() {
+        Pet pet = new Pet();
+
+        pet.setAbrigo(this);
+        pet.setAdotado(false);
+        this.getPets().add(pet);
     }
 
     @Override
