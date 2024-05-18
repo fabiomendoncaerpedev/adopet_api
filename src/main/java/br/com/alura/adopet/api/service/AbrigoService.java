@@ -10,7 +10,6 @@ import br.com.alura.adopet.api.model.Pet;
 import br.com.alura.adopet.api.repository.AbrigoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,23 +23,17 @@ public class AbrigoService {
     public List<DetalhesAbrigoDTO> listarAbrigos() {
         return abrigoRepository.findAll().stream()
                 .map(abrigo -> new DetalhesAbrigoDTO(abrigo))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public void cadastrarAbrigo(CadastroAbrigoDTO dto) {
-        boolean nomeJaCadastrado = abrigoRepository.existsByNome(dto.nome());
-        boolean telefoneJaCadastrado = abrigoRepository.existsByTelefone(dto.telefone());
-        boolean emailJaCadastrado = abrigoRepository.existsByEmail(dto.email());
+        boolean jaCadastrado = abrigoRepository.existsByNomeOrTelefoneOrEmail(dto.nome(), dto.telefone(), dto.email());
 
-        if (nomeJaCadastrado || telefoneJaCadastrado || emailJaCadastrado) {
+        if (jaCadastrado) {
             throw new ValidacaoException("Dados já cadastrados para outro abrigo!");
         }
 
-        abrigoRepository.save(new Abrigo(
-                dto.nome(),
-                dto.telefone(),
-                dto.email()
-        ));
+        abrigoRepository.save(new Abrigo(dto));
     }
 
     public List<DadosDetalhesPetDTO> listarPets(String idOuNome) {
